@@ -1,0 +1,79 @@
+﻿@model ArtisanELearningSystem.Entities.Instructor
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-10">
+            <div class="section3125 rpt145">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <a href="#" class="_216b22">
+                            <span><i class="uil uil-windsock"></i></span>Report Profile
+                        </a>
+                        <div class="dp_dt150">
+                            <div class="img148">
+                                <img src="/curus/images/left-imgs/img-1.jpg">
+                            </div>
+                            <div class="prfledt1">
+                                <h2>John Doe</h2>
+                                <span>Web Developer</span>
+                            </div>
+                        </div>
+                        <ul class="_ttl120">
+                            <li>
+                                <div class="_ttl121">
+                                    <div class="_ttl122">Enroll Students</div>
+                                    <div class="_ttl123">612K</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="_ttl121">
+                                    <div class="_ttl122">Courses</div>
+                                    <div class="_ttl123">8</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="_ttl121">
+                                    <div class="_ttl122">Reviews</div>
+                                    <div class="_ttl123">115K</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="_ttl121">
+                                    <div class="_ttl122">Subscribers</div>
+                                    <div class="_ttl123">452K</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-5">
+                        <a href="#" class="_216b12">
+                            <span><i class="uil uil-windsock"></i></span>Report Profile
+                        </a>
+                        <div class="rgt-145">
+                            <ul class="tutor_social_links">
+                                <li><a href="#" class="fb"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" class="tw"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" class="ln"><i class="fab fa-linkedin-in"></i></a></li>
+                                <li><a href="#" class="yu"><i class="fab fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+                        <ul class="_bty149">
+                            <li><button class="subscribe-btn btn500">Subscribe</button></li>
+                            <li><button class="msg125 btn500">Message</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
