@@ -1,0 +1,56 @@
+#added by Sylvester 03/03
+# Ignore Visual Studio files
+.vs/
+bin/
+obj/
+*.suo
+*.user
+*.psess
+*.dbmdl
+*.log
+*.tlog
+*.cache
+*.vspscc
+*.vssscc
+*.scc
+.vs\
+.vs
+
+# Ignore build artifacts
+[Dd]ebug/
+[Rr]elease/
+x64/
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.bsc
+*.exp
+*.map
+*.aps
+*.lib
+*.dll
+*.zip
+*.vsi
+*.appx
+
+# Ignore package files
+packages/
+*.nupkg
+*.pck
+
+# Ignore node_modules
+node_modules/
