@@ -17,5 +17,7 @@ namespace ArtisanELearningSystem.Data
         public DbSet<ArtisanELearningSystem.Entities.Student> Student { get; set; } = default!;
 
         public DbSet<ArtisanELearningSystem.Entities.Instructor>? Instructor { get; set; }
+
+        public DbSet<ArtisanELearningSystem.Entities.Course>? Course { get; set; }
     }
 }

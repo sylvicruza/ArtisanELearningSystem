@@ -1,8 +1,10 @@
-﻿@model ArtisanELearningSystem.Entities.Instructor
+﻿@model ArtisanELearningSystem.Entities.Course
 
 @{
     ViewData["Title"] = "NewCourses";
 }
+
+@await Html.PartialAsync("_NewCoursesModal")
 
 <div class="container">
     <div class="row">
@@ -30,20 +32,20 @@
                         <li>
                             <a href="#tab_step3">
                                 <span class="number"></span>
-                                <span class="step-name">Media</span>
+                                <span class="step-name">Price</span>
                             </a>
                         </li>
                         <li>
                             <a href="#tab_step4">
                                 <span class="number"></span>
-                                <span class="step-name">Price</span>
+                                <span class="step-name">Publish</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#tab_step5">
+                            @*<a href="#tab_step5">
                                 <span class="number"></span>
                                 <span class="step-name">Publish</span>
-                            </a>
+                            </a>*@
                         </li>
                     </ul>
                     <div class="step-content">
@@ -59,7 +61,7 @@
                                                 <div class="ui search focus mt-30 lbel25">
                                                     <label>Course Title*</label>
                                                     <div class="ui left icon input swdh19">
-                                                        <input class="prompt srch_explore" type="text" placeholder="Course title here" name="title" data-purpose="edit-course-title" maxlength="60" id="main[title]" value>
+                                                        <input  asp-for="Title" class="prompt srch_explore" type="text" placeholder="Course title here" data-purpose="edit-course-title" maxlength="60" >
                                                         <div class="badge_num">60</div>
                                                     </div>
                                                     <div class="help-block">(Please make this a maximum of 100 characters and unique.)</div>
@@ -70,43 +72,19 @@
                                                     <label>Short Description*</label>
                                                     <div class="ui form swdh30">
                                                         <div class="field">
-<textarea rows="3" name="description" id placeholder="Item description here..."></textarea>
+<textarea rows="3" asp-for="Description" placeholder="Item description here..."></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="help-block">220 words</div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 col-md-12">
-                                                <div class="course_des_textarea mt-30 lbel25">
-                                                    <label>Course Description*</label>
-                                                    <div class="course_des_bg">
-                                                        <ul class="course_des_ttle">
-                                                            <li><a href="#"><i class="uil uil-bold"></i></a></li>
-                                                            <li><a href="#"><i class="uil uil-italic"></i></a></li>
-                                                            <li><a href="#"><i class="uil uil-list-ul"></i></a></li>
-                                                            <li><a href="#"><i class="uil uil-left-to-right-text-direction"></i></a></li>
-                                                            <li><a href="#"><i class="uil uil-right-to-left-text-direction"></i></a></li>
-                                                            <li><a href="#"><i class="uil uil-list-ui-alt"></i></a></li>
-                                                            <li><a href="#"><i class="uil uil-link"></i></a></li>
-                                                            <li><a href="#"><i class="uil uil-text-size"></i></a></li>
-                                                            <li><a href="#"><i class="uil uil-text"></i></a></li>
-                                                        </ul>
-                                                        <div class="textarea_dt">
-                                                            <div class="ui form swdh339">
-                                                                <div class="field">
-<textarea rows="5" name="description" id="id_course_description" placeholder="Insert your course description"></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                         
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="ui search focus lbel25 mt-30">
                                                     <label>What will students learn in your course?*</label>
                                                     <div class="ui form swdh30">
                                                         <div class="field">
-<textarea rows="3" name="description"></textarea>
+<textarea rows="3" asp-for="LearningOutcomes"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="help-block">Student will gain this skills, knowledge after completing this course. (One per line).</div>
@@ -117,7 +95,7 @@
                                                     <label>Requirements*</label>
                                                     <div class="ui form swdh30">
                                                         <div class="field">
-<textarea rows="3" name="description"></textarea>
+<textarea rows="3" asp-for="Requirements"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="help-block">What knowledge, technology, tools required by users to start this course. (One per line).</div>
@@ -134,49 +112,7 @@
                                                     <option value="3">Expert</option>
                                                 </select>
                                             </div>
-                                            <div class="col-lg-6 col-md-12">
-                                                <div class="mt-30 lbel25">
-                                                    <label>Audio Language*</label>
-                                                </div>
-                                                <select class="ui hj145 dropdown cntry152 prompt srch_explore" multiple>
-                                                    <option value="">Select Audio</option>
-                                                    <option>English</option>
-                                                    <option>Español</option>
-                                                    <option>Português</option>
-                                                    <option>日本語</option>
-                                                    <option>Deutsch</option>
-                                                    <option>Français</option>
-                                                    <option>Türkçe</option>
-                                                    <option>Italiano</option>
-                                                    <option>हिन्दी</option>
-                                                    <option>Polski</option>
-                                                    <option>Tamil</option>
-                                                    <option>मराठी</option>
-                                                    <option>Telugu</option>
-                                                    <option>Română</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <div class="mt-30 lbel25">
-                                                    <label>Close Caption*</label>
-                                                </div>
-                                                <select class="ui hj145 dropdown cntry152 prompt srch_explore" multiple>
-                                                    <option value="">Select Caption</option>
-                                                    <option>English</option>
-                                                    <option>Español</option>
-                                                    <option>Português</option>
-                                                    <option>Italiano</option>
-                                                    <option>Français</option>
-                                                    <option>Polski</option>
-                                                    <option>Deutsch</option>
-                                                    <option>Bahasa Indonesia</option>
-                                                    <option>ภาษาไทย</option>
-                                                    <option>हिन्दी</option>
-                                                    <option>Tamil</option>
-                                                    <option>मराठी</option>
-                                                    <option>Telugu</option>
-                                                </select>
-                                            </div>
+                                          
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="mt-30 lbel25">
                                                     <label>Course Category*</label>
@@ -334,20 +270,20 @@
                                                 <button class="main-btn color btn-hover ml-left add-section-title" data-toggle="modal" data-target="#add_section_model">New Section</button>
                                             </div>
                                             <div class="added-section-item mb-30">
-                                                <div class="section-header">
+                                               @* <div class="section-header">
                                                     <h4><i class="fas fa-bars mr-2"></i>Introduction</h4>
                                                     <div class="section-edit-options">
                                                         <button class="btn-152" type="button" data-toggle="collapse" data-target="#edit-section"><i class="fas fa-edit"></i></button>
                                                         <button class="btn-152" type="button"><i class="fas fa-trash-alt"></i></button>
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 <div id="edit-section" class="collapse">
                                                     <div class="new-section smt-25">
                                                         <div class="form_group">
                                                             <div class="ui search focus mt-30 lbel25">
                                                                 <label>Section Name*</label>
                                                                 <div class="ui left icon input swdh19">
-                                                                    <input class="prompt srch_explore" type="text" placeholder name="title" maxlength="60" id="main[title]" value="Introduction">
+                                                                    <input asp-for="Curriculum.Section" class="prompt srch_explore" type="text" maxlength="60">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -356,7 +292,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="section-group-list sortable">
+                                                @*<div class="section-group-list sortable">
                                                     <div class="section-list-item">
                                                         <div class="section-item-title">
                                                             <i class="fas fa-file-alt mr-2"></i>
@@ -384,11 +320,11 @@
                                                         <button type="button" class="section-item-tools"><i class="fas fa-trash-alt"></i></button>
                                                         <button type="button" class="section-item-tools ml-auto"><i class="fas fa-bars"></i></button>
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 <div class="section-add-item-wrap p-3">
                                                     <button class="add_lecture" data-toggle="modal" data-target="#add_lecture_model"><i class="far fa-plus-square mr-2"></i>Lecture</button>
                                                     <button class="add_quiz" data-toggle="modal" data-target="#add_quiz_model"><i class="far fa-plus-square mr-2"></i>Quiz</button>
-                                                    <button class="add_assignment" data-toggle="modal" data-target="#add_assignment_model"><i class="far fa-plus-square mr-2"></i>Assignment</button>
+                                                    @*<button class="add_assignment" data-toggle="modal" data-target="#add_assignment_model"><i class="far fa-plus-square mr-2"></i>Assignment</button>*@
                                                 </div>
                                             </div>
                                         </div>
@@ -396,7 +332,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="step-tab-panel step-tab-location" id="tab_step3">
+                       @* <div class="step-tab-panel step-tab-location" id="tab_step3">
                             <div class="tab-from-content">
                                 <div class="title-icon">
                                     <h3 class="title"><i class="uil uil-image"></i>Media</h3>
@@ -485,8 +421,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="step-tab-panel step-tab-amenities" id="tab_step4">
+                        </div>*@
+                       
+                        <div class="step-tab-panel step-tab-location" id="tab_step3">
                             <div class="tab-from-content">
                                 <div class="title-icon">
                                     <h3 class="title"><i class="uil uil-usd-square"></i>Price</h3>
@@ -556,7 +493,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="step-tab-panel step-tab-location" id="tab_step5">
+                        <div class="step-tab-panel step-tab-amenities" id="tab_step4">
                             <div class="tab-from-content">
                                 <div class="title-icon">
                                     <h3 class="title"><i class="uil uil-upload"></i>Submit</h3>

@@ -16,7 +16,7 @@
                     <h1>Jump Into Course Creation</h1>
                 </div>
                 <div class="card_dash_right1">
-                    <button class="create_btn_dash" onclick="window.location.href = 'create_new_course.html';">Create Your Course</button>
+                    <button class="create_btn_dash" onclick="window.location.href = '@Url.Action("NewCourses", "Instructor")';">Create Your Course</button>
                 </div>
             </div>
         </div>
@@ -332,7 +332,7 @@
                     </div>
                     <div class="tab-pane fade" id="pills-promotions" role="tabpanel" aria-labelledby="pills-promotions-tab">
                         <div class="promotion_tab mb-10">
-                            <img src="images/dashboard/promotion.svg" alt>
+                            <img src="/curus/images/dashboard/promotion.svg" >
                             <h4>Baby promotion plan is activated!</h4>
                             <p>By activating promotion plans you can improve course views and sales.</p>
                             <button class="plan_link_btn" onclick="window.location.href = '#';">Change New Plan</button>
