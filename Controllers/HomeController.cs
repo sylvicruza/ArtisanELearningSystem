@@ -15,11 +15,13 @@ namespace ArtisanELearningSystem.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ILoginService _loginService;
+        private readonly ICourseService _courseService;
 
-        public HomeController(ILogger<HomeController> logger, ILoginService loginService)
+        public HomeController(ILogger<HomeController> logger, ILoginService loginService, ICourseService courseService)
         {
             _logger = logger;
             _loginService = loginService;
+            _courseService = courseService;
         }
 
         public IActionResult Index(string? userInfo)
@@ -28,7 +30,8 @@ namespace ArtisanELearningSystem.Controllers
             {
                 ModelState.AddModelError(string.Empty, userInfo);
             }
-            return View();
+            var courses = _courseService.GetAllCourses().Result;
+            return View(courses);
         }
 
         public IActionResult SignIn(string? userInfo)

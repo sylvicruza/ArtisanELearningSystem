@@ -16,10 +16,29 @@ namespace ArtisanELearningSystem.Models
         [Required]
         public string Name { get; set; }
 
-       
+
         public string? Category { get; set; }
 
-        [Required]
-        public string AboutMe { get; set; }
+       
+        public string? AboutMe { get; set; }
+
+        public ICollection<string>? Interests { get; set; }
+
+        public ICollection<string>? LearningObjectives { get; set; }
+
+        public int? PreferredDifficultyLevel { get; set; }
+
+
+        public string InterestsString
+        {
+            get { return string.Join(",", Interests); }
+            set { Interests = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries); }
+        }
+
+        public string LearningObjectivesString
+        {
+            get { return string.Join(",", LearningObjectives); }
+            set { Interests = value.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries); }
+        }
     }
 }

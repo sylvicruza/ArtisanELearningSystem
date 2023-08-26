@@ -23,7 +23,7 @@ namespace ArtisanELearningSystem.Services
         public async Task<bool> Authenticate(SignInViewModel model)
         {
             // Retrieve the student from the database using the provided username and password
-            var student = await _context.Student.FirstOrDefaultAsync(u => u.Email == model.Email);
+            var student = await _context.Student.Include(c=>c.CourseEnrollments).FirstOrDefaultAsync(u => u.Email == model.Email);
             if (student == null)
             {
                 return false;
@@ -39,8 +39,9 @@ namespace ArtisanELearningSystem.Services
             {
                 throw new UserNotFoundException($"Student with email {email} not found.");
             }
-            var user = await _context.Student
-               
+            var user = await _context.Student.Include(c => c.CourseEnrollments)
+
+
                 .FirstOrDefaultAsync(m => m.Email == email);
             return user;
         }
@@ -56,8 +57,9 @@ namespace ArtisanELearningSystem.Services
                 throw new UserNotFoundException($"Student with id {id} not found.");
             }
 
-            var user = await _context.Student
-                
+            var user = await _context.Student.Include(c => c.CourseEnrollments)
+
+
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (user == null)
             {
@@ -76,7 +78,7 @@ namespace ArtisanELearningSystem.Services
                 throw new UserNotFoundException($"Student with id {studentId} not found.");
             }
 
-            var user = await _context.Student
+            var user = await _context.Student.Include(c => c.CourseEnrollments)
                 
                 .FirstOrDefaultAsync(m => m.StudentId == studentId);
             if (user == null)
@@ -161,7 +163,7 @@ namespace ArtisanELearningSystem.Services
                 throw new UserNotFoundException($"Student with id {id} not found.");
             }
 
-            var user = await _context.Student.FindAsync(id);
+            var user = await _context.Student.Include(c => c.CourseEnrollments).FirstOrDefaultAsync(c=>c.Id==id);
             if (user == null)
             {
                 throw new UserNotFoundException($"Student with id {id} not found.");

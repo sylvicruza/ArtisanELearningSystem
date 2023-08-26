@@ -17,7 +17,7 @@ namespace ArtisanELearningSystem.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("ProductVersion", "6.0.20")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -30,12 +30,15 @@ namespace ArtisanELearningSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<double?>("AverageRating")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Badge")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CurriculumId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DateCreated")
                         .HasColumnType("datetime2");
@@ -50,7 +53,7 @@ namespace ArtisanELearningSystem.Migrations
                     b.Property<int?>("InstructorId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsLoginRequired")
+                    b.Property<bool>("IsLoginRequired")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsPublished")
@@ -64,6 +67,9 @@ namespace ArtisanELearningSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Poster")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -71,20 +77,30 @@ namespace ArtisanELearningSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TimeAgo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("TotalRatings")
+                        .HasColumnType("int");
 
-                    b.HasIndex("CurriculumId");
+                    b.Property<int?>("ViewCount")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("InstructorId");
 
                     b.ToTable("Course");
                 });
 
-            modelBuilder.Entity("ArtisanELearningSystem.Entities.Curriculum", b =>
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.CourseEnrollment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,9 +108,83 @@ namespace ArtisanELearningSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Curriculum");
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("CourseEnrollment");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.CourseRating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateCreated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TimeAgo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("CourseRating");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.Discussion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Discussion");
                 });
 
             modelBuilder.Entity("ArtisanELearningSystem.Entities.Instructor", b =>
@@ -149,14 +239,24 @@ namespace ArtisanELearningSystem.Migrations
                     b.Property<string>("Attachment")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("InstructorId")
+                        .HasColumnType("int");
 
                     b.Property<bool?>("IsPreviewFree")
                         .HasColumnType("bit");
 
                     b.Property<string>("Runtime")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("URL")
@@ -166,6 +266,10 @@ namespace ArtisanELearningSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("InstructorId");
 
                     b.ToTable("Lecture");
                 });
@@ -206,8 +310,8 @@ namespace ArtisanELearningSystem.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("QuizId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("QuizId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Score")
                         .HasColumnType("nvarchar(max)");
@@ -229,8 +333,14 @@ namespace ArtisanELearningSystem.Migrations
 
             modelBuilder.Entity("ArtisanELearningSystem.Entities.Quiz", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -241,6 +351,8 @@ namespace ArtisanELearningSystem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
 
                     b.ToTable("Quiz");
                 });
@@ -253,9 +365,6 @@ namespace ArtisanELearningSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CurriculumId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("LectureId")
                         .HasColumnType("int");
 
@@ -266,16 +375,11 @@ namespace ArtisanELearningSystem.Migrations
                     b.Property<int?>("QuizId")
                         .HasColumnType("int");
 
-                    b.Property<string>("QuizId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CurriculumId");
 
                     b.HasIndex("LectureId");
 
-                    b.HasIndex("QuizId1");
+                    b.HasIndex("QuizId");
 
                     b.ToTable("Section");
                 });
@@ -295,6 +399,12 @@ namespace ArtisanELearningSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Interests")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LearningObjectives")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Mobile")
                         .HasColumnType("nvarchar(max)");
 
@@ -305,6 +415,9 @@ namespace ArtisanELearningSystem.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PreferredDifficultyLevel")
+                        .HasColumnType("int");
 
                     b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(max)");
@@ -317,11 +430,109 @@ namespace ArtisanELearningSystem.Migrations
                     b.ToTable("Student");
                 });
 
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.UserProgress", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("LectureId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuizId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("LectureId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("QuizId");
+
+                    b.ToTable("UserProgress");
+                });
+
             modelBuilder.Entity("ArtisanELearningSystem.Entities.Course", b =>
                 {
-                    b.HasOne("ArtisanELearningSystem.Entities.Curriculum", "Curriculum")
+                    b.HasOne("ArtisanELearningSystem.Entities.Instructor", "Instructor")
                         .WithMany()
-                        .HasForeignKey("CurriculumId")
+                        .HasForeignKey("InstructorId");
+
+                    b.Navigation("Instructor");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.CourseEnrollment", b =>
+                {
+                    b.HasOne("ArtisanELearningSystem.Entities.Course", "Course")
+                        .WithMany("CourseEnrollments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArtisanELearningSystem.Entities.Student", "Student")
+                        .WithMany("CourseEnrollments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.CourseRating", b =>
+                {
+                    b.HasOne("ArtisanELearningSystem.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArtisanELearningSystem.Entities.Student", "Student")
+                        .WithMany("CourseRatings")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.Discussion", b =>
+                {
+                    b.HasOne("ArtisanELearningSystem.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.Lecture", b =>
+                {
+                    b.HasOne("ArtisanELearningSystem.Entities.Course", "Course")
+                        .WithMany("Lectures")
+                        .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -329,47 +540,91 @@ namespace ArtisanELearningSystem.Migrations
                         .WithMany()
                         .HasForeignKey("InstructorId");
 
-                    b.Navigation("Curriculum");
+                    b.Navigation("Course");
 
                     b.Navigation("Instructor");
                 });
 
             modelBuilder.Entity("ArtisanELearningSystem.Entities.Options", b =>
                 {
-                    b.HasOne("ArtisanELearningSystem.Entities.Question", null)
+                    b.HasOne("ArtisanELearningSystem.Entities.Question", "Question")
                         .WithMany("Options")
                         .HasForeignKey("QuestionId");
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("ArtisanELearningSystem.Entities.Question", b =>
                 {
-                    b.HasOne("ArtisanELearningSystem.Entities.Quiz", null)
+                    b.HasOne("ArtisanELearningSystem.Entities.Quiz", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("QuizId");
+
+                    b.Navigation("Quiz");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.Quiz", b =>
+                {
+                    b.HasOne("ArtisanELearningSystem.Entities.Course", "Course")
+                        .WithMany("Quizs")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
                 });
 
             modelBuilder.Entity("ArtisanELearningSystem.Entities.Section", b =>
                 {
-                    b.HasOne("ArtisanELearningSystem.Entities.Curriculum", null)
-                        .WithMany("Section")
-                        .HasForeignKey("CurriculumId");
-
                     b.HasOne("ArtisanELearningSystem.Entities.Lecture", "Lecture")
                         .WithMany()
                         .HasForeignKey("LectureId");
 
                     b.HasOne("ArtisanELearningSystem.Entities.Quiz", "Quiz")
                         .WithMany()
-                        .HasForeignKey("QuizId1");
+                        .HasForeignKey("QuizId");
 
                     b.Navigation("Lecture");
 
                     b.Navigation("Quiz");
                 });
 
-            modelBuilder.Entity("ArtisanELearningSystem.Entities.Curriculum", b =>
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.UserProgress", b =>
                 {
-                    b.Navigation("Section");
+                    b.HasOne("ArtisanELearningSystem.Entities.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ArtisanELearningSystem.Entities.Lecture", "Lecture")
+                        .WithMany()
+                        .HasForeignKey("LectureId");
+
+                    b.HasOne("ArtisanELearningSystem.Entities.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionId");
+
+                    b.HasOne("ArtisanELearningSystem.Entities.Quiz", "Quiz")
+                        .WithMany()
+                        .HasForeignKey("QuizId");
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Lecture");
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Quiz");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.Course", b =>
+                {
+                    b.Navigation("CourseEnrollments");
+
+                    b.Navigation("Lectures");
+
+                    b.Navigation("Quizs");
                 });
 
             modelBuilder.Entity("ArtisanELearningSystem.Entities.Question", b =>
@@ -380,6 +635,13 @@ namespace ArtisanELearningSystem.Migrations
             modelBuilder.Entity("ArtisanELearningSystem.Entities.Quiz", b =>
                 {
                     b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("ArtisanELearningSystem.Entities.Student", b =>
+                {
+                    b.Navigation("CourseEnrollments");
+
+                    b.Navigation("CourseRatings");
                 });
 #pragma warning restore 612, 618
         }

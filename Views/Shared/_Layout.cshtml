@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+@{
+    var givenName = User.FindFirst(ClaimTypes.GivenName)?.Value;
+    
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -183,7 +188,7 @@
                                     <img src="/curus/images/hd_dp.jpg">
                                     <div class="pd_content">
                                         <div class="rhte85">
-                                            <h6>Joginder Singh</h6>
+                                            <h6>@givenName</h6>
                                             <div class="mef78" title="Verify">
                                                 <i class="uil uil-check-circle"></i>
                                             </div>
@@ -276,12 +281,12 @@
                     <span class="menu--label">Payout</span>
                     </a>
                     </li>*@
-                        <li class="menu--item">
+                       @* <li class="menu--item">
                             <a asp-controller="Instructor" asp-action="Statements" class="menu--link" title="Statements">
                                 <i class="uil uil-file-alt menu--icon"></i>
                                 <span class="menu--label">Statements</span>
                             </a>
-                        </li>
+                        </li>*@
                         @*<li class="menu--item">
                     <a href="instructor_verification.html" class="menu--link" title="Verification">
                     <i class="uil uil-check-circle menu--icon"></i>
@@ -365,7 +370,7 @@
                                 <div class="profile_link">
                                     <img src="/curus/images/left-imgs/img-6.jpg">
                                     <div class="pd_content">
-                                        <h6>Zoena Singh</h6>
+                                        <h6>John Doe</h6>
                                         <p>Hi! Sir, How are you. I ask you one thing please explain it about you.</p>
                                         <span class="nm_time">2 min ago</span>
                                     </div>
@@ -439,7 +444,7 @@
                                     <img src="/curus/images/left-imgs/img-1.jpg">
                                     <div class="pd_content">
                                         <div class="rhte85">
-                                            <h6>John Doe</h6>
+                                            <h6>@givenName</h6>
                                         </div>
                                         <span><a href="#" class="__cf_email__" data-cfemail="32785d5a5c565d5772555f535b5e1c515d5f">@User?.Identity?.Name</a></span>
                                     </div>
@@ -480,6 +485,12 @@
                             </a>
                         </li>
                         <li class="menu--item">
+                            <a asp-controller="Student" asp-action="SavedCourses" class="menu--link" title="Saved Courses">
+                            <i class="uil uil-heart-alt menu--icon"></i>
+                            <span class="menu--label">Saved Courses</span>
+                        </a>
+                        </li>
+                        <li class="menu--item">
                             <a asp-controller="Student" asp-action="Messages" class="menu--link" title="Messages">
                                 <i class="uil uil-comments menu--icon"></i>
                                 <span class="menu--label">Messages</span>
@@ -504,12 +515,12 @@
                             </a>
                         </li>
 
-                        <li class="menu--item">
+                      @*  <li class="menu--item">
                             <a asp-controller="Student" asp-action="Statements" class="menu--link" title="Statements">
                                 <i class="uil uil-file-alt menu--icon"></i>
                                 <span class="menu--label">Statements</span>
                             </a>
-                        </li>
+                        </li>*@
                     </ul>
                 </div>
                 <div class="left_section pt-2">
@@ -638,6 +649,7 @@
             }
         }
     </script>
+
 
     @*@await Html.PartialAsync("_NewCoursesModal")*@
     @await RenderSectionAsync("Scripts", required: false)

@@ -1,7 +1,7 @@
-﻿@model ArtisanELearningSystem.Entities.Student
+﻿@model IEnumerable<ArtisanELearningSystem.Entities.Course>
 
 @{
-    ViewData["Title"] = "Courses";
+    ViewData["Title"] = "Purchased Courses";
 }
 
 <div class="container-fluid">
@@ -21,41 +21,41 @@
                                 <th scope="col">Title</th>
                                 <th scope="col">Vendor</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Delivery Type</th>
+                                <th scope="col">Level</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Purchase Date</th>
                                 <th scope="col">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>001</td>
-                                <td>Course Title Here</td>
-                                <td><a href="#">Zoena Singh</a></td>
-                                <td><a href="#">Web Development</a></td>
-                                <td><b class="course_active">Download</b></td>
-                                <td>$15</td>
-                                <td>25 March 2020</td>
-                                <td>
-                                    <a href="#" title="Download" class="gray-s"><i class="uil uil-download-alt"></i></a>
-                                    <a href="#" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
-                                    <a href="#" title="Print" class="gray-s"><i class="uil uil-print"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>002</td>
-                                <td>Course Title Here</td>
-                                <td><a href="#">Rock William</a></td>
-                                <td><a href="#">C++</a></td>
-                                <td><b class="course_active">Download</b></td>
-                                <td>$20</td>
-                                <td>20 March 2020</td>
-                                <td>
-                                    <a href="#" title="Download" class="gray-s"><i class="uil uil-download-alt"></i></a>
-                                    <a href="#" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
-                                    <a href="#" title="Print" class="gray-s"><i class="uil uil-print"></i></a>
-                                </td>
-                            </tr>
+@if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>   @Html.DisplayFor(modelItem => item.Id)</td>
+                                        <td>   @Html.DisplayFor(modelItem => item.Title)</td>
+                                        <td><a href="#">   @Html.DisplayFor(modelItem => item.Instructor.Name)</a></td>
+                                        <td><a href="#">   @Html.DisplayFor(modelItem => item.Category)</a></td>
+                                        <td><b class="course_active">   @Html.DisplayFor(modelItem => item.Level)</b></td>
+                                        <td>
+                                            @{
+                                                decimal price = item.Price ?? 0;
+                                                decimal discount = item.Discount ?? 0;
+                                                decimal total = price - discount;
+                                            }
+                                            $@total.ToString("0.00")
+                                        </td>
+                                        <td>   @Html.DisplayFor(modelItem => item.DateCreated)</td>
+                                        <td>
+                                            <a asp-controller="Course" asp-action="CourseDetailView" asp-route-id="@item.Id" title="View" class="gray-s"><i class="uil uil-book-open"></i></a>
+                                            <a href="#" title="Delete" class="gray-s"><i class="uil uil-trash-alt"></i></a>
+                                            <a href="#" title="Print" class="gray-s"><i class="uil uil-print"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                          
                         </tbody>
                     </table>
                 </div>

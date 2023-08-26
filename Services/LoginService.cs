@@ -1,4 +1,5 @@
 ﻿using ArtisanELearningSystem.Entities;
+using ArtisanELearningSystem.Exceptions;
 using ArtisanELearningSystem.Models;
 using ArtisanELearningSystem.Services.Interfaces;
 using ArtisanELearningSystem.Utils;
@@ -32,10 +33,14 @@ namespace ArtisanELearningSystem.Services
 
             if (user.Value)
             {
+                var userObject = await GetAllUserByEmailAsync(model.Email);
+                var StudentOrInstructor =(dynamic)userObject;
+
                 var claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, model.Email),
             new Claim(ClaimTypes.Role, user.Key),
+            new Claim(ClaimTypes.GivenName, StudentOrInstructor.Name),
             // Add any other claims as needed
         };
 
@@ -52,7 +57,7 @@ namespace ArtisanELearningSystem.Services
 
         private async Task<KeyValuePair<string, bool>> GetRoleAndUser(SignInViewModel model)
         {
-            bool isStudent =  await _studentService.Authenticate(model);
+            bool isStudent = await _studentService.Authenticate(model);
             bool isInstructor = await _instructorService.Authenticate(model);
 
             if (isStudent)
@@ -67,8 +72,6 @@ namespace ArtisanELearningSystem.Services
             return new KeyValuePair<string, bool>(string.Empty, false);
         }
 
-
-
         public async Task<object> GetUserByEmailAsync(string email)
         {
             object user = await GetAllUserByEmailAsync(email);
@@ -81,22 +84,19 @@ namespace ArtisanELearningSystem.Services
             var newPassword = GeneratePassword(10);
             var hashedPassword = HashPassword(newPassword);
 
-            switch (user)
+            if (user is Student student)
             {
-
-
-                case Student student:
-                    student.Password = hashedPassword;
-                    await _studentService.UpdateStudent(student);
-                    break;
-
-                case Instructor instructor:
-                    instructor.Password = hashedPassword;
-                    await _instructorService.UpdateInstructor(instructor);
-                    break;
-
-                default:
-                    return new { Status = ForgotPasswordStatus.Error, ErrorMessage = "User not found." };
+                student.Password = hashedPassword;
+                await _studentService.UpdateStudent(student);
+            }
+            else if (user is Instructor instructor)
+            {
+                instructor.Password = hashedPassword;
+                await _instructorService.UpdateInstructor(instructor);
+            }
+            else
+            {
+                return new { Status = ForgotPasswordStatus.Error, ErrorMessage = "User not found." };
             }
 
             // await SendPasswordResetEmailAsync(email, newPassword);
@@ -106,7 +106,6 @@ namespace ArtisanELearningSystem.Services
 
         private async Task<object> GetAllUserByEmailAsync(string email)
         {
-
             object user = await _studentService.GetStudentByEmail(email);
 
             if (user != null)
@@ -116,6 +115,7 @@ namespace ArtisanELearningSystem.Services
 
             return await _instructorService.GetInstructorByEmail(email);
         }
+
 
         private string GeneratePassword(int length)
         {
@@ -137,6 +137,26 @@ namespace ArtisanELearningSystem.Services
             var emailSender = new EmailSender("localhost", 25, "example@mail.com", "password123");
             var emailBody = $"Your new password is: {newPassword}";
             await emailSender.SendEmailAsync(email, "Password Reset", emailBody);
+        }
+
+
+        public async Task<T> GetLoggedInUser<T>(string email) where T : class
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                throw new UserNotFoundException("User not found");
+            }
+
+            object user = await GetAllUserByEmailAsync(email);
+
+            if (user is T specificUser)
+            {
+                return specificUser;
+            }
+            else
+            {
+                throw new UserNotFoundException($"User not found as {typeof(T).Name}.");
+            }
         }
 
 

@@ -4,34 +4,91 @@ using ArtisanELearningSystem.Entities;
 using ArtisanELearningSystem.Services.Interfaces;
 using ArtisanELearningSystem.Models;
 using ArtisanELearningSystem.Exceptions;
-using ArtisanELearningSystem.Services;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder;
+using ArtisanELearningSystem.ChatBox;
 
 namespace ArtisanELearningSystem.Controllers
 {
     public class StudentController : Controller
     {
         private readonly IStudentService studentService;
+        private readonly ICourseService courseService;
+        private readonly IEnrollmentService enrollmentService;
+        private readonly IDiscussionService discussionService;
+        private readonly IRecommendationService recommendationService;
+        private readonly IBotFrameworkHttpAdapter _adapter;
+        private readonly IInstructorService instructorService;
+      
+     //   private readonly AIMLChatBot _chatBot;
 
-        public StudentController(IStudentService _studentService)
+
+
+        public StudentController(IStudentService _studentService, ICourseService courseService, IEnrollmentService enrollmentService, IDiscussionService discussionService, IRecommendationService recommendationService, IInstructorService instructorService)
         {
             studentService = _studentService;
+            this.courseService = courseService;
+            this.enrollmentService = enrollmentService;
+            this.discussionService = discussionService;
+            this.recommendationService = recommendationService;
+            this.instructorService = instructorService;
+            // Initialize the chatbot with a unique user ID
+           // _chatBot = new AIMLChatBot("user123");
         }
+
+        [HttpPost]
+        public async Task<string> PostAsync(CancellationToken cancellationToken)
+        {
+            // Process the incoming activity using the bot
+            // await _adapter.ProcessAsync(Request, Response, _bot, cancellationToken);
+            return  "Hello and welcome! I am your chatbot. How can I assist you?";
+        }
+
+       
+/*
+        [HttpPost]
+        public IActionResult PostChatOutput(string message)
+        {
+            // Get the chatbot's response based on user input
+            string response = _chatBot.GetOutput(message);
+
+            // You can do something with the response, such as displaying it to the user
+            return Json(new { response });
+        }*/
+
+        public IActionResult ChatIndex()
+        {
+            return View();
+        }
+
 
         // GET: Student
         public async Task<IActionResult> Index()
         {
-              return studentService.GetAllStudents() != null ? 
-                          View(await studentService.GetAllStudents()) :
-                          Problem("Entity set 'ArtisanELearningSystemContext.Student'  is null.");
+            return studentService.GetAllStudents() != null ?
+                        View(await studentService.GetAllStudents()) :
+                        Problem("Entity set 'ArtisanELearningSystemContext.Student'  is null.");
         }
 
         // GET: Student/Dashboard
-        public IActionResult Dashboard(string response)
+        public async Task<IActionResult> Dashboard(string? response, string? type)
         {
-            if (!string.IsNullOrEmpty(response))
+            if (type == "success" && !string.IsNullOrEmpty(response))
             {
                 ViewBag.Message = response;
             }
+            else if (type == "failure" && !string.IsNullOrEmpty(response))
+            {
+                ViewBag.Failure = response;
+            }
+            ViewData["Courses"] = courseService.GetAllCourses().Result;
+            var enrolledCourses = await enrollmentService.GetEnrolledCoursesForStudent(GetCurrentUser().Result.Id);
+            ViewData["EnrolledCourses"] = enrolledCourses;
+            
+            var numberOfSuggestions = 5; // You can set the number of learning path suggestions to display
+            var recommendations = recommendationService.GetPersonalizedLearningPaths(GetCurrentUser().Result, numberOfSuggestions);
+            ViewData["RecommendedCourses"] = recommendations;
+            ViewData["InstructorCount"] = instructorService.GetAllInstructors().Result.Count;
 
             return View();
 
@@ -77,15 +134,36 @@ namespace ArtisanELearningSystem.Controllers
         }
 
         // GET: Student/Courses
-        public IActionResult Courses()
+        public async Task<IActionResult> Courses()
+        {
+            var currentUserId = GetCurrentUser().Result.Id;
+            // Get enrolled courses for the current student
+            var enrolledCourses = await enrollmentService.GetEnrolledCoursesForStudent(currentUserId);
+            return View(enrolledCourses);
+        }
+
+        // GET: Student/SavedCourses
+        public IActionResult SavedCourses()
         {
             return View();
         }
         // GET: Student/Messages
-        public IActionResult Messages()
+
+        public async Task<IActionResult> Messages(string? response, int courseId = 6)
         {
-            return View();
+            if (!string.IsNullOrEmpty(response))
+            {
+                ViewBag.Message = response;
+            }
+            var discussion = new CourseDiscussionViewModel { CourseId = courseId };
+            var discussions = await discussionService.GetDiscussionsForCourse(courseId);
+            ViewData["Discussions"] = discussions.ToList();
+            ViewData["LoggedInUser"] = GetCurrentUser().Result;
+            return View(discussion);
         }
+
+
+
         // GET: Student/Notifications
         public IActionResult Notifications()
         {
@@ -128,8 +206,9 @@ namespace ArtisanELearningSystem.Controllers
                 {
                     Name = signUp.Name,
                     Email = signUp.Email,
-                    
-                    AboutMe = signUp.AboutMe,
+                    PreferredDifficultyLevel = signUp.PreferredDifficultyLevel,
+                    LearningObjectives = signUp.LearningObjectivesString,
+                    Interests = signUp.InterestsString,
                     Password = signUp.Password
                 };
 
@@ -237,6 +316,6 @@ namespace ArtisanELearningSystem.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
+
     }
 }

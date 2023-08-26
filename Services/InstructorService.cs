@@ -40,7 +40,7 @@ namespace ArtisanELearningSystem.Services
                 return null;
             }
 
-            return  _context.Instructor.SingleOrDefault(u => u.Email == email);
+            return _context.Instructor.SingleOrDefault(u => u.Email == email);
 
         }
         public async Task<List<Instructor>> GetAllInstructors()

@@ -1,8 +1,10 @@
-﻿@model ArtisanELearningSystem.Entities.Student
+﻿@model CourseDiscussionViewModel
 
 @{
     ViewData["Title"] = "Messages";
 }
+
+
 
 <div class="container-fluid">
     <div class="row">
@@ -25,93 +27,20 @@
                         </div>
                         <div class="simplebar-content-wrapper">
                             <div class="group_messages">
-                                <div class="chat__message__dt active">
-                                    <div class="user-status">
-                                        <div class="user-avatar">
-                                            <img src="/curus/images/left-imgs/img-1.jpg" >
-                                            <div class="msg__badge">2</div>
+                                @foreach (var discussion in ViewBag.Discussions)
+                                {
+                                    <div class="chat__message__dt active">
+                                        <div class="user-status">
+                                            <div class="user-avatar">
+                                                <img src="/curus/images/left-imgs/img-1.jpg">
+                                                <div class="msg__badge">2</div>
+                                            </div>
+                                            <p class="user-status-title"><span class="bold">@discussion.UserId</span></p>
+                                            <p class="user-status-text">@discussion.Content</p>
+                                            <p class="user-status-time floaty">@discussion.Timestamp.ToString("MMM d, h:mm tt")</p>
                                         </div>
-                                        <p class="user-status-title"><span class="bold">John Doe</span></p>
-                                        <p class="user-status-text">Hi! Sir, How are you. I ask you one thing please explain it this video price.</p>
-                                        <p class="user-status-time floaty">7 hours ago</p>
                                     </div>
-                                </div>
-                                <div class="chat__message__dt">
-                                    <div class="user-status">
-                                        <div class="user-avatar">
-                                            <img src="/curus/images/left-imgs/img-2.jpg" >
-                                            <div class="msg__badge">3</div>
-                                        </div>
-                                        <p class="user-status-title"><span class="bold">Kerstin Cable</span></p>
-                                        <p class="user-status-text">Hello, I paid you video tutorial but did not play error 404.</p>
-                                        <p class="user-status-time floaty">8 hours ago</p>
-                                    </div>
-                                </div>
-                                <div class="chat__message__dt">
-                                    <div class="user-status">
-                                        <div class="user-avatar">
-                                            <img src="/curus/images/left-imgs/img-3.jpg" >
-                                            <div class="msg__badge">1</div>
-                                        </div>
-                                        <p class="user-status-title"><span class="bold">Jose Portilla</span></p>
-                                        <p class="user-status-text">Thanks Sir, Such a nice video.</p>
-                                        <p class="user-status-time floaty">15 hours ago</p>
-                                    </div>
-                                </div>
-                                <div class="chat__message__dt">
-                                    <div class="user-status">
-                                        <div class="user-avatar">
-                                            <img src="/curus/images/left-imgs/img-4.jpg" >
-                                            <div class="msg__badge">7</div>
-                                        </div>
-                                        <p class="user-status-title"><span class="bold">Farhat Amin</span></p>
-                                        <p class="user-status-text">Hi! Sir, this is a purchase key CFKX12536ERUJSKLL</p>
-                                        <p class="user-status-time floaty">22 hours ago</p>
-                                    </div>
-                                </div>
-                                <div class="chat__message__dt">
-                                    <div class="user-status">
-                                        <div class="user-avatar">
-                                            <img src="/curus/images/left-imgs/img-5.jpg" >
-                                            <div class="msg__badge">12</div>
-                                        </div>
-                                        <p class="user-status-title"><span class="bold">Kyle Pew</span></p>
-                                        <p class="user-status-text">Pls! Upload .NET Course</p>
-                                        <p class="user-status-time floaty">2 days ago</p>
-                                    </div>
-                                </div>
-                                <div class="chat__message__dt">
-                                    <div class="user-status">
-                                        <div class="user-avatar">
-                                            <img src="/curus/images/left-imgs/img-6.jpg" >
-                                        </div>
-                                        <p class="user-status-title"><span class="bold">Eli Natoli</span></p>
-                                        <p class="user-status-text">Hi Sir thank you very very much for bootstrap full course.</p>
-                                        <p class="user-status-time floaty">5 days ago</p>
-                                    </div>
-                                </div>
-                                <div class="chat__message__dt">
-                                    <div class="user-status">
-                                        <div class="user-avatar">
-                                            <img src="/curus/images/left-imgs/img-7.jpg" >
-                                            <div class="msg__badge">6</div>
-                                        </div>
-                                        <p class="user-status-title"><span class="bold">Jaysen Batchelor</span></p>
-                                        <p class="user-status-text">Thank you! Sir</p>
-                                        <p class="user-status-time floaty">7 days ago</p>
-                                    </div>
-                                </div>
-                                <div class="chat__message__dt">
-                                    <div class="user-status">
-                                        <div class="user-avatar">
-                                            <img src="/curus/images/left-imgs/img-8.jpg" >
-                                            <div class="msg__badge">1</div>
-                                        </div>
-                                        <p class="user-status-title"><span class="bold">Quinton Batchelor</span></p>
-                                        <p class="user-status-text">Hey!</p>
-                                        <p class="user-status-time floaty">13 days ago</p>
-                                    </div>
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -120,9 +49,9 @@
                             <div class="chat_header">
                                 <div class="user-status">
                                     <div class="user-avatar">
-                                        <img src="/curus/images/left-imgs/img-1.jpg" >
+                                        <img src="/curus/images/left-imgs/img-1.jpg">
                                     </div>
-                                    <p class="user-status-title"><span class="bold">John Doe</span></p>
+                                    <p class="user-status-title"><span class="bold">@ViewBag.LoggedInUser.Name</span></p>
                                     <p class="user-status-tag online">Online</p>
                                     <div class="user-status-time floaty eps_dots eps_dots5 more_dropdown">
                                         <a href="#"><i class="uil uil-ellipsis-h"></i></a>
@@ -137,62 +66,26 @@
                             </div>
                             <div class="messages-line simplebar-content-wrapper2 scrollstyle_4">
                                 <div class="mCustomScrollbar">
-                                    <div class="main-message-box ta-right">
-                                        <div class="message-dt">
-                                            <div class="message-inner-dt">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
+                                    @foreach (var discussion in ViewBag.Discussions)
+                                    {
+                                        <div class="main-message-box @((discussion.UserId == ViewBag.LoggedInUser.StudentId) ? "ta-right" : "st3")">
+                                            <div class="message-dt @((discussion.UserId == ViewBag.LoggedInUser.StudentId) ? "" : "st3")">
+                                                <div class="message-inner-dt">
+                                                    <p>@discussion.Content</p>
+                                                </div>
+                                                <span>@discussion.Timestamp.ToString("MMM d, h:mm tt")</span>
                                             </div>
-                                            <span>Sat, April 10, 1:08 PM</span>
                                         </div>
-                                    </div>
-                                    <div class="main-message-box st3">
-                                        <div class="message-dt st3">
-                                            <div class="message-inner-dt">
-                                                <p>Cras ultricies ligula.</p>
-                                            </div>
-                                            <span>5 minutes ago</span>
-                                        </div>
-                                    </div>
-                                    <div class="main-message-box ta-right">
-                                        <div class="message-dt">
-                                            <div class="message-inner-dt">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
-                                            </div>
-                                            <span>Sat, April 10, 1:08 PM</span>
-                                        </div>
-                                    </div>
-                                    <div class="main-message-box st3">
-                                        <div class="message-dt st3">
-                                            <div class="message-inner-dt">
-                                                <p>Lorem ipsum dolor sit amet</p>
-                                            </div>
-                                            <span>2 minutes ago</span>
-                                        </div>
-                                    </div>
-                                    <div class="main-message-box ta-right">
-                                        <div class="message-dt">
-                                            <div class="message-inner-dt">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum congue leo eget malesuada. Vivamus suscipit tortor eget felis porttitor.</p>
-                                            </div>
-                                            <span>Sat, April 10, 1:08 PM</span>
-                                        </div>
-                                    </div>
-                                    <div class="main-message-box st3">
-                                        <div class="message-dt st3">
-                                            <div class="message-inner-dt">
-                                                <p>....</p>
-                                            </div>
-                                            <span>Typing...</span>
-                                        </div>
-                                    </div>
+                                    }
                                 </div>
                             </div>
                             <div class="message-send-area">
-                                <form>
+                                <form method="post" asp-controller="Course" asp-action="AddPost" >
                                     <div class="mf-field">
+                                        <input type="hidden" asp-for="CourseId" />
                                         <div class="ui search focus input__msg">
                                             <div class="ui left icon input swdh19">
-                                                <input class="prompt srch_explore" type="text" id="chat-widget-message-text-2" name="chat_widget_message_text_2" placeholder="Write a message...">
+                                                <input class="prompt srch_explore" type="text" id="chat-widget-message-text-2" asp-for="NewPostContent" placeholder="Write a message...">
                                             </div>
                                         </div>
                                         <button class="add_msg" type="submit"><i class="uil uil-message"></i></button>
@@ -206,6 +99,7 @@
         </div>
     </div>
 </div>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

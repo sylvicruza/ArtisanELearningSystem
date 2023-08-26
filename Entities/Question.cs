@@ -10,6 +10,9 @@
         public string? Score { get; set; }
 
         public List<Options>? Options { get; set; }
+
+        public int? QuizId { get; set; }
+        public Quiz? Quiz { get; set; }
     }
 
 }

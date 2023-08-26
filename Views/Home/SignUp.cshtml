@@ -83,20 +83,36 @@
                                     <div class="ui search focus mt-15">
                                         <div class="ui left icon input swdh11 swdh19">
                                     <select asp-for="Category" class="ui hj145 dropdown cntry152 prompt srch_explore">
-                                        <option value="">Select Category</option>
-                                        <option value="1">Development</option>
-                                        <option value="2">Business</option>
-                                        <option value="3">Finance & Accounting</option>
-                                        <option value="4">IT & Software</option>
-                                        <option value="5">Office Productivity</option>
-                                        <option value="6">Personal Development</option>
-                                        <option value="7">Design</option>
-                                        <option value="8">Marketing</option>
-                                        <option value="9">Lifestyle</option>
-                                        <option value="10">Photography</option>
-                                        <option value="11">Health & Fitness</option>
-                                        <option value="12">Music</option>
-                                        <option value="13">Teaching & Academics</option>
+                                                <option value="">Select</option>
+                                                <optgroup label="Art & Design">
+                                                    <option value="Art & Painting">Art & Painting</option>
+                                                    <option value="Photography & Videography">Photography & Videography</option>
+                                                    <option value="Design & Graphics">Design & Graphics</option>
+                                                    <option value="Fashion & Textile Design">Fashion & Textile Design</option>
+                                                    <option value="Crafts & DIY">Crafts & DIY</option>
+                                                    <option value="Woodworking & Carpentry">Woodworking & Carpentry</option>
+                                                    <option value="Jewelry Making & Metalsmithing">Jewelry Making & Metalsmithing</option>
+                                                    <option value="Pottery & Ceramics">Pottery & Ceramics</option>
+                                                    <option value="Sculpture">Sculpture</option>
+                                                    <option value="Calligraphy">Calligraphy</option>
+                                                    <option value="Paper Crafts">Paper Crafts</option>
+                                                    <option value="Glassblowing">Glassblowing</option>
+                                                    <option value="Leatherworking">Leatherworking</option>
+                                                    <option value="Knitting & Crocheting">Knitting & Crocheting</option>
+                                                    <option value="Embroidery & Needlework">Embroidery & Needlework</option>
+                                                    <option value="Bookbinding">Bookbinding</option>
+                                                    <option value="Candle Making">Candle Making</option>
+                                                    <option value="Soap Making">Soap Making</option>
+                                                    <option value="Brewing & Fermentation">Brewing & Fermentation</option>
+                                                    <option value="Metalworking">Metalworking</option>
+                                                    <option value="Digital Art">Digital Art</option>
+                                                    <option value="Mixed Media Art">Mixed Media Art</option>
+                                                    <option value="Printmaking">Printmaking</option>
+                                                    <option value="Sewing & Tailoring">Sewing & Tailoring</option>
+                                                    <option value="Visual Merchandising">Visual Merchandising</option>
+                                                    <!-- Add more options for Art & Design -->
+                                                </optgroup>
+                                                <!-- Add other optgroups and options -->
                                     </select>
                                     </div>
                                     </div>
@@ -135,9 +151,85 @@
                                         </div>
                                     </div>
                                     <div class="ui search focus mt-15">
+                                        <div class="ui left icon input swdh11 swdh19">
+                                            <select asp-for="PreferredDifficultyLevel" class="ui hj145 dropdown cntry152 prompt srch_explore">
+                                                <option value="">Select Level</option>
+                                                <option value="1">Beginner</option>
+                                                <option value="2">Intermediate</option>
+                                                <option value="3">Expert</option>
+                                            </select>
+                                            <span asp-validation-for="PreferredDifficultyLevel" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="ui search focus mt-15">
+                                        <div class="ui left icon input swdh11 swdh19">
+                                            <select asp-for="Interests" class="ui hj145 dropdown cntry152 prompt srch_explore" multiple>
+                                                <option value="">Select Multiple Interests</option>
+                                                <optgroup label="Level">
+                                                    <option value="Beginner">Beginner</option>
+                                                    <option value="Intermediate">Intermediate</option>
+                                                    <option value="Advanced">Advanced</option>
+                                                </optgroup>
+                                                <optgroup label="Learning Approach">
+                                                    <option value="Fundamentals">Fundamentals</option>
+                                                    <option value="Practical Skills">Practical Skills</option>
+                                                    <option value="Theory">Theory</option>
+                                                    <option value="Hands-on Training">Hands-on Training</option>
+                                                    <option value="Project-based Learning">Project-based Learning</option>
+                                                </optgroup>
+                                                <optgroup label="Certification & Format">
+                                                    <option value="Certification">Certification</option>
+                                                    <option value="Online Course">Online Course</option>
+                                                    <option value="Self-Paced Learning">Self-Paced Learning</option>
+                                                    <option value="Live Webinars">Live Webinars</option>
+                                                    <option value="Video Lectures">Video Lectures</option>
+                                                    <option value="Quizzes & Assessments">Quizzes & Assessments</option>
+                                                    <option value="Interactive Lessons">Interactive Lessons</option>
+                                                    <option value="Gamification">Gamification</option>
+                                                    <option value="Collaborative Learning">Collaborative Learning</option>
+                                                </optgroup>
+                                                <optgroup label="Industry & Skills">
+                                                    <option value="Industry-specific Training">Industry-specific Training</option>
+                                                    <option value="Soft Skills Development">Soft Skills Development</option>
+                                                    <option value="Problem Solving">Problem Solving</option>
+                                                    <option value="Critical Thinking">Critical Thinking</option>
+                                                    <option value="Time Management">Time Management</option>
+                                                    <option value="Leadership Skills">Leadership Skills</option>
+                                                    <option value="Creativity & Innovation">Creativity & Innovation</option>
+                                                </optgroup>
+                                                <optgroup label="Technology & IT">
+                                                    <option value="Data Analysis">Data Analysis</option>
+                                                    <option value="Programming">Programming</option>
+                                                    <option value="Design & Art">Design & Art</option>
+                                                    <option value="Artificial Intelligence">Artificial Intelligence</option>
+                                                    <option value="Machine Learning">Machine Learning</option>
+                                                    <option value="Cybersecurity">Cybersecurity</option>
+                                                    <option value="Cloud Computing">Cloud Computing</option>
+                                                    <option value="Web Development">Web Development</option>
+                                                    <option value="Mobile App Development">Mobile App Development</option>
+                                                    <option value="Graphic Design">Graphic Design</option>
+                                                    <option value="Video Editing">Video Editing</option>
+                                                    <option value="Photography">Photography</option>
+                                                </optgroup>
+                                                <optgroup label="Business & Career">
+                                                    <option value="Marketing & Sales">Marketing & Sales</option>
+                                                    <option value="Finance & Accounting">Finance & Accounting</option>
+                                                    <option value="Project Management">Project Management</option>
+                                                    <option value="Human Resources">Human Resources</option>
+                                                    <option value="Customer Service">Customer Service</option>
+                                                    <option value="Teaching & Education">Teaching & Education</option>
+                                                </optgroup>
+                                                <optgroup label="Science & Engineering">
+                                                    <option value="Science & Engineering">Science & Engineering</option>
+                                                </optgroup>
+                                            </select>
+                                            <span asp-validation-for="Interests" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="ui search focus mt-15">
                                         <div class="ui form swdh30">
                                             <div class="field">
-<textarea rows="3" asp-for="AboutMe" id="id_about1" placeholder="Write a little description about you..."></textarea>
+<textarea rows="3" asp-for="LearningObjectives" id="id_about1" placeholder="What are your learning objectives..."></textarea>
                                             </div>
                                         </div>
                                         <div class="help-block">Your biography should have at least 12000 characters.</div>

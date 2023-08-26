@@ -1,0 +1,44 @@
+﻿@model CourseDetailsViewModel
+
+@{
+    ViewData["Title"] = "Course Details";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="st_title"><i class="uil uil-analysis"></i> Course Details</h2>
+        </div>
+    </div>
+   
+    <div class="row">
+        <h2>@Model.Course.Title</h2>
+        <!-- Display other course details here -->
+        <!-- Display progress indicators for each lesson, exercise, or module -->
+        @foreach (var lesson in Model.Course.Lectures)
+        {
+            var isLessonCompleted = Model.UserProgress.Any(p => p.LectureId == lesson.Id && p.IsCompleted);
+            <div>
+                <h3>@lesson.Title</h3>
+                @if (isLessonCompleted)
+                {
+                    <span>Completed</span>
+                }
+                else
+                {
+                    <form asp-controller="Course" asp-action="MarkElementCompleted">
+                        <input type="hidden" name="courseId" value="@Model.Course.Id" />
+                        <input type="hidden" name="lessonId" value="@lesson.Id" />
+                        <button type="submit">Mark as Completed</button>
+                    </form>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

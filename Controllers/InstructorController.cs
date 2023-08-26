@@ -6,24 +6,27 @@ using ArtisanELearningSystem.Services.Interfaces;
 using ArtisanELearningSystem.Services;
 using ArtisanELearningSystem.Models;
 using ArtisanELearningSystem.Exceptions;
+using Microsoft.AspNetCore.Authentication;
 
 namespace ArtisanELearningSystem.Controllers
 {
     public class InstructorController : Controller
     {
         private readonly IInstructorService instructorService;
+        private readonly ICourseService courseService;
 
-        public InstructorController(IInstructorService _instructorService)
+        public InstructorController(IInstructorService _instructorService, ICourseService _courseService)
         {
             instructorService = _instructorService;
+            this.courseService = _courseService;
         }
 
         // GET: Instructor
         public async Task<IActionResult> Index()
         {
-              return instructorService.GetAllInstructors()!= null ? 
-                          View(await instructorService.GetAllInstructors()) :
-                          Problem("Entity set 'ArtisanELearningSystemContext.Instructor'  is null.");
+            return instructorService.GetAllInstructors() != null ?
+                        View(await instructorService.GetAllInstructors()) :
+                        Problem("Entity set 'ArtisanELearningSystemContext.Instructor'  is null.");
         }
 
         // GET: Instructor/Dashboard
@@ -36,20 +39,21 @@ namespace ArtisanELearningSystem.Controllers
 
         private async Task<Instructor> GetCurrentUser()
         {
-            var identity = User.Identity;
-            if (identity == null || string.IsNullOrEmpty(identity.Name))
+            var email = User.Identity?.Name;
+            if (string.IsNullOrEmpty(email))
             {
                 throw new UserNotFoundException("User not found");
-
             }
-            var instructor = await instructorService.GetInstructorByEmail(identity.Name);
+
+            var instructor = await instructorService.GetInstructorByEmail(email);
             if (instructor == null)
             {
                 throw new UserNotFoundException("User not found");
-
             }
+
             return instructor;
         }
+
 
         // GET: Instructor/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -68,10 +72,41 @@ namespace ArtisanELearningSystem.Controllers
             return View(instructor);
         }
         // GET: Instructor/Courses
-        public IActionResult Courses()
+        public async Task<IActionResult> Courses(string? response, string? type)
         {
-            return View();
+            if (type == "success" && !string.IsNullOrEmpty(response))
+            {
+                ViewBag.Message = response;
+            }
+            else if (type == "failure" && !string.IsNullOrEmpty(response))
+            {
+                ViewBag.Failure = response;
+            }
+
+            try
+            {
+                var instructor = await GetCurrentUser();
+                var courses = await courseService.GetCourseByInstructorId(instructor.Id);
+                var lectures = await courseService.GetLectureByInstructorId(instructor.Id);
+                var quizzes = await courseService.GetQuizzesByInstructorId(instructor.Id);
+                var questions = await courseService.GetQQuesttionsByInstructorId(instructor.Id);
+                ViewData["InstructorCourses"] = courses;
+                ViewData["InstructorLectures"] = lectures;
+                ViewData["InstructorQuizzes"] = quizzes;
+                ViewData["InstructorQuestions"] = questions;
+
+                return View();
+            }
+            catch (UserNotFoundException)
+            {
+                // Handle the UserNotFoundException by signing out the user and redirecting to the error page
+                return RedirectToAction("Logout", "Home");
+            }
         }
+
+
+
+
         // GET: Instructor/Analytics
         public IActionResult Analytics()
         {
@@ -81,8 +116,26 @@ namespace ArtisanELearningSystem.Controllers
         // GET: Instructor/NewCourses
         public IActionResult NewCourses()
         {
+
             return View();
         }
+
+        [HttpPost]
+        public IActionResult AddSection(string sectionName)
+        {
+            // Perform form validation (if needed)
+            // ...
+            if (!string.IsNullOrEmpty(sectionName))
+            {
+                courseService.CreateSection(sectionName);
+            }
+            // Handle the form submission logic here
+            // For example, you can save the section to the database or perform other operations
+
+
+            return RedirectToAction("NewCourses"); // Redirect to a success page or any other page after form submission
+        }
+
         // GET: Instructor/Messages
         public IActionResult Messages()
         {
